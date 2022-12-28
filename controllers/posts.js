@@ -45,4 +45,13 @@ module.exports = {
 			console.log(error);
 		}
 	},
+	likePost: async (req, res) => {
+		try {
+			const post = await Post.findOneAndUpdate({ _id: req.params.id }, { $inc: { likes: 1 } });
+			console.log('likes +1');
+			res.redirect('/post/' + req.params.id);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 };
