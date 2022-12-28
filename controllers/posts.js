@@ -53,5 +53,22 @@ module.exports = {
 		} catch (error) {
 			console.log(error);
 		}
+	}, 
+	deletePost: async (req, res) => {
+		try {
+			// Find post by id
+			const post = await Post.findById({ _id: req.params.id });
+			
+			// Delete image from cloudinary
+			await cloudinary.uploader.destroy(post.cloudinaryId);
+
+			// Delete post from db
+			await Post.remove({ _id: req.params.id });
+
+			console.log('post deleted');
+			res.redirect("/profile");
+		} catch (error) {
+			res.redirect("/profile");
+		}
 	}
 };
